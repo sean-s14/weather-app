@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .nav-shadow {
+    box-shadow: 0 1px 6px;
+  }
+}
