@@ -11,4 +11,8 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  // Absolute imports
+  resolve: {
+    alias: [{ find: "@", replacement: "/src" }],
+  },
 });

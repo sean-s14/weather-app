@@ -3,7 +3,7 @@ version: "3"
 services:
   weather-app-service:
     container_name: weather-app-container
-    image: weather-app:1
+    image: weather-app:2
     build:
       context: .
       dockerfile: Dockerfile
