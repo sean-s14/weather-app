@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  weather-app-service:
+    container_name: weather-app-container
+    image: weather-app:1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./
+        target: /usr/src/app
+    ports:
+      - "3000:3000"
+    command: ash -c "npm install && npm run dev"
