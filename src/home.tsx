@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import Searchbar from "@/components/searchbar";
+import FiveDayForecast from "@/components/five-day-forecast";
 
+// TODO: add button to switch between celcius and fahrenheit
 export default function Home() {
   const [coordinates, setCoordinates] = useState({ lat: 0, lon: 0 });
 
   useEffect(() => {
-    console.log(coordinates);
-
     // If user has already set a location, don't get their location
     if (coordinates.lat !== 0 && coordinates.lon !== 0) return;
 
@@ -36,6 +36,9 @@ export default function Home() {
           </span>
         </li>
       </ul>
+      <div className="mt-10">
+        <FiveDayForecast coordinates={coordinates} />
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { fetchLocation } from "@/api/location";
 import { TLocationName } from "@/types/geocode";
+import { useDebounce } from "use-debounce";
 
 export default function Searchbar({
   setCoordinates,
@@ -12,16 +13,17 @@ export default function Searchbar({
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const [location, setLocation] = useState("");
+  const [debouncedLocation] = useDebounce(location, 500);
 
   const { data: locationData, isLoading } = useQuery({
-    queryKey: [location],
-    queryFn: () => fetchLocation(location),
+    queryKey: [debouncedLocation],
+    queryFn: () => fetchLocation(debouncedLocation),
     staleTime: 1000 * 60 * 60 * 24, // 1 day
   });
 
   return (
     <div
-      className="min-w-[80%] w-96 flex flex-col h-fit relative"
+      className="min-w-[80%] w-96 max-w-full flex flex-col h-fit relative"
       onFocus={() => setIsFocused(true)}
       onBlur={(e) => {
         if (e.relatedTarget) return;
