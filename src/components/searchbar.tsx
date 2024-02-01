@@ -23,7 +23,7 @@ export default function Searchbar({
 
   return (
     <div
-      className="min-w-[80%] w-96 max-w-full flex flex-col h-fit relative"
+      className="min-w-[60%] w-[500px] max-w-full flex flex-col h-fit relative"
       onFocus={() => setIsFocused(true)}
       onBlur={(e) => {
         if (e.relatedTarget) return;

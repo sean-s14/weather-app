@@ -23,12 +23,4 @@ describe("Ensure searchbar works", () => {
     cy.get("li").should("exist");
     cy.get("li").contains("London, England, GB").should("exist");
   });
-
-  it("Ensure search text, latitude, and longitude are updated when a location is selected", () => {
-    cy.get("input#location-input").type("london");
-    cy.get("li").contains("London, England, GB").click();
-    cy.get("input#location-input").should("have.value", "London, England, GB");
-    cy.get("li span#latitude-test").should("have.text", "51.5073219");
-    cy.get("li span#longitude-test").should("have.text", "-0.1276474");
-  });
 });

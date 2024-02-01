@@ -1,4 +1,5 @@
 import { list } from "@/types/fiveDayForecast";
+import { TemperatureUnit } from "@/types/temperature";
 import { getDayOfWeek } from "./dates";
 
 // Celsius to Kelvin
@@ -77,4 +78,13 @@ export function getDailyAverage(weatherList: list[]): DailyAverage[] {
   // Convert groupedByDay to an array
   const result = Object.values(groupedByDay);
   return result;
+}
+
+/**
+ * Takes a temperature and a unit and returns the temperature in the specified unit from kelvin.
+ */
+export function getTemp(temp: number | undefined, unit: TemperatureUnit) {
+  if (temp !== 0 && !temp) return null;
+  if (unit === "celsius") return kelvinToCelsius(temp);
+  if (unit === "fahrenheit") return kelvinToFahrenheit(temp);
 }

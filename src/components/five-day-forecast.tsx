@@ -8,17 +8,22 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { fetchFiveDayForecast } from "@/api/fiveDayForecast";
 import { useQuery } from "@tanstack/react-query";
-import {
-  kelvinToCelsius,
-  getDailyAverage,
-  DailyAverage,
-} from "@/lib/temperature";
+import { getDailyAverage, DailyAverage, getTemp } from "@/lib/temperature";
 import { getDayOfWeek } from "@/lib/dates";
+import { TemperatureUnit } from "@/types/temperature";
 
-function DayForecast({ day }: { day: DailyAverage }) {
+function DayForecast({
+  day,
+  temperatureUnit,
+}: {
+  day: DailyAverage;
+  temperatureUnit: TemperatureUnit;
+}) {
   const dayOfWeek = getDayOfWeek(day.dt_txt);
-  const max_temp = day?.max_temp && kelvinToCelsius(day.max_temp).toFixed(1);
-  const min_temp = day?.min_temp && kelvinToCelsius(day.min_temp).toFixed(1);
+  const max_temp =
+    day?.max_temp && getTemp(day.max_temp, temperatureUnit)?.toFixed(0);
+  const min_temp =
+    day?.min_temp && getTemp(day.min_temp, temperatureUnit)?.toFixed(0);
 
   return (
     <Card>
@@ -40,14 +45,14 @@ function DayForecast({ day }: { day: DailyAverage }) {
           <span
             className="font-bold"
             tabIndex={0}
-            aria-label={`Maximum temperature for ${dayOfWeek} is ${max_temp} degrees Celcius`}
+            aria-label={`Maximum temperature for ${dayOfWeek} is ${max_temp} degrees celsius`}
           >
             {max_temp}°
           </span>
           <span
             className=""
             tabIndex={0}
-            aria-label={`Minimum temperature for ${dayOfWeek} is ${min_temp} degrees celcius`}
+            aria-label={`Minimum temperature for ${dayOfWeek} is ${min_temp} degrees celsius`}
           >
             {min_temp}°
           </span>
@@ -74,11 +79,19 @@ const slidesToScroll = (screenWidth: number) => {
 
 export default function FiveDayForecast({
   coordinates,
+  temperatureUnit,
 }: {
   coordinates: { lat: number; lon: number };
+  temperatureUnit: TemperatureUnit;
 }) {
   const { data: forecastData, isLoading } = useQuery({
-    queryKey: [coordinates],
+    queryKey: [
+      "five-day-forecast" +
+        "&lat=" +
+        coordinates.lat +
+        "&lon=" +
+        coordinates.lon,
+    ],
     queryFn: () => fetchFiveDayForecast(coordinates),
     staleTime: 1000 * 60 * 60 * 3, // 3 hours
   });
@@ -113,7 +126,10 @@ export default function FiveDayForecast({
                   getDailyAverage(forecastData?.list).length
                 }`}
               >
-                <DayForecast day={dailyAverage} />
+                <DayForecast
+                  day={dailyAverage}
+                  temperatureUnit={temperatureUnit}
+                />
               </CarouselItem>
             )
           )

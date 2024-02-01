@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import Searchbar from "@/components/searchbar";
 import FiveDayForecast from "@/components/five-day-forecast";
+import Forecast from "@/components/forecast";
+import { TemperatureUnit } from "@/types/temperature";
 
-// TODO: add button to switch between celcius and fahrenheit
 export default function Home() {
   const [coordinates, setCoordinates] = useState({ lat: 0, lon: 0 });
+  const [temperatureUnit, setTemperatureUnit] =
+    useState<TemperatureUnit>("celsius");
 
   useEffect(() => {
     // If user has already set a location, don't get their location
@@ -21,23 +24,24 @@ export default function Home() {
 
   return (
     <div className="p-10 flex flex-col items-center justify-center">
+      {/* Searchbar */}
       <Searchbar setCoordinates={setCoordinates} />
-      <ul className="w-full mt-10">
-        <li aria-label={"Latitude " + coordinates.lat}>
-          <span aria-hidden="true">Latitude:</span>
-          <span id="latitude-test" aria-hidden="true">
-            {coordinates.lat}
-          </span>
-        </li>
-        <li aria-label={"Longitude " + coordinates.lon}>
-          <span aria-hidden="true">Longitude:</span>
-          <span id="longitude-test" aria-hidden="true">
-            {coordinates.lon}
-          </span>
-        </li>
-      </ul>
-      <div className="mt-10">
-        <FiveDayForecast coordinates={coordinates} />
+
+      {/* Current Forecast */}
+      <div className="mt-4 flex justify-center">
+        <Forecast
+          coordinates={coordinates}
+          temperatureUnit={temperatureUnit}
+          setTemperatureUnit={setTemperatureUnit}
+        />
+      </div>
+
+      {/* Five Day Forecast */}
+      <div className="mt-4 self-center">
+        <FiveDayForecast
+          coordinates={coordinates}
+          temperatureUnit={temperatureUnit}
+        />
       </div>
     </div>
   );

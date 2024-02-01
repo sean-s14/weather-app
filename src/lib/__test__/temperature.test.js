@@ -7,6 +7,7 @@ import {
   fahrenheitToCelsius,
   fahrenheitToKelvin,
   getDailyAverage,
+  getTemp,
 } from "../temperature";
 import fiveDayForecast from "./fixtures/fiveDayForecast.json";
 
@@ -59,4 +60,9 @@ test("getDailyAverage returns the correct average", () => {
   expect(dailyAverage[5].min_temp).toBe(283.09);
   expect(dailyAverage[5].max_temp).toBe(283.16);
   expect(dailyAverage[5].dt_txt).toBe("2024-02-05 00:00:00");
+});
+
+test("getTemp returns the correct temperature from kelvin to specified unit", () => {
+  expect(getTemp(0, "celsius")).toBe(-273.15);
+  expect(getTemp(1, "fahrenheit")).toBe(-457.87);
 });
