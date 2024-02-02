@@ -3,6 +3,7 @@ import Searchbar from "@/components/searchbar";
 import FiveDayForecast from "@/components/five-day-forecast";
 import Forecast from "@/components/forecast";
 import { TemperatureUnit } from "@/types/temperature";
+import Footer from "@/components/footer";
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState({ lat: 0, lon: 0 });
@@ -23,26 +24,31 @@ export default function Home() {
   }, [coordinates]);
 
   return (
-    <div className="p-10 flex flex-col items-center justify-center">
-      {/* Searchbar */}
-      <Searchbar setCoordinates={setCoordinates} />
+    <div className="full-height flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center p-10 max-w-full">
+        {/* Searchbar */}
+        <Searchbar setCoordinates={setCoordinates} />
 
-      {/* Current Forecast */}
-      <div className="mt-4 flex justify-center">
-        <Forecast
-          coordinates={coordinates}
-          temperatureUnit={temperatureUnit}
-          setTemperatureUnit={setTemperatureUnit}
-        />
+        {/* Current Forecast */}
+        <div className="mt-4 flex justify-center">
+          <Forecast
+            coordinates={coordinates}
+            temperatureUnit={temperatureUnit}
+            setTemperatureUnit={setTemperatureUnit}
+          />
+        </div>
+
+        {/* Five Day Forecast */}
+        <div className="mt-4 self-center">
+          <FiveDayForecast
+            coordinates={coordinates}
+            temperatureUnit={temperatureUnit}
+          />
+        </div>
       </div>
 
-      {/* Five Day Forecast */}
-      <div className="mt-4 self-center">
-        <FiveDayForecast
-          coordinates={coordinates}
-          temperatureUnit={temperatureUnit}
-        />
-      </div>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
